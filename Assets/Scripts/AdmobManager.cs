@@ -4,6 +4,7 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class AdmobManager : MonoBehaviour
 {
@@ -93,16 +94,19 @@ public class AdmobManager : MonoBehaviour
 
     private void SetupNativeAd()
     {
+        Debug.Log(nativeAd.GetIconTexture()+"==>"+icon);
         AssignSpriteToObject(nativeAd.GetIconTexture(), icon);
+        Debug.Log(nativeAd.GetImageTextures()[0] + "==>" + MainTexture);
         AssignSpriteToObject(nativeAd.GetImageTextures()[0], MainTexture);
-        AssignSpriteToObject(nativeAd.GetAdChoicesLogoTexture(), adchoice);
-
-        ctaText.GetComponentInChildren<TextMesh>().text = nativeAd.GetCallToActionText();
+        //Debug.Log(nativeAd.GetAdChoicesLogoTexture() + "==>" + adchoice);
+        //AssignSpriteToObject(nativeAd.GetAdChoicesLogoTexture(), adchoice);
+        Debug.Log(nativeAd.GetCallToActionText() + "==>" + ctaText + "===>"+ ctaText.GetComponent<TextMeshProUGUI>());
+        ctaText.GetComponent<TextMeshProUGUI>().text = nativeAd.GetCallToActionText();
 
         nativeAd.RegisterIconImageGameObject(icon);
         nativeAd.RegisterImageGameObjects(new List<GameObject>() { MainTexture });
-        nativeAd.RegisterAdChoicesLogoGameObject(adchoice);
-        nativeAd.RegisterCallToActionGameObject(ctaText.transform.GetChild(0).gameObject);
+        //nativeAd.RegisterAdChoicesLogoGameObject(adchoice);
+        nativeAd.RegisterCallToActionGameObject(ctaText);
     }
 
     private void AssignSpriteToObject(Texture2D spriteToAssign, GameObject obj)
@@ -110,6 +114,7 @@ public class AdmobManager : MonoBehaviour
         var sprite = Sprite.Create(spriteToAssign,
         new Rect(0.0f, 0.0f, spriteToAssign.width, spriteToAssign.height),
         new Vector2(0.5f, 0.5f), 100.0f);
+        Debug.Log(obj.name +"==>"+ obj.GetComponent<Image>());
         obj.GetComponent<Image>().sprite = sprite;
     }
 
